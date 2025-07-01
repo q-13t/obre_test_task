@@ -13,7 +13,7 @@ function getRandom(min: number, max: number): string {
 
 function App() {
     const user = useContext(UserContext);
-    const q: Quote[] = Array.from({ length: 1000 }, (_, i) => new Quote(i, `QU-${i}`, "11/02/2025", "Customer", "Flat 19, 2, Havanna Drive, London NW11 9BB", Math.floor(parseFloat(getRandom(0, 100))), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), `temp@mail.org`, "Sample description"));
+    const q: Quote[] = Array.from({ length: 30 }, (_, i) => new Quote(i, `QU-${i}`, "11/02/2025", "Customer", "Flat 19, 2, Havanna Drive, London NW11 9BB", Math.floor(parseFloat(getRandom(0, 100))), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), `temp@mail.org`, `Sample description ${i}`));
 
     useEffect(() => {
         // Assuming user has been logged in before

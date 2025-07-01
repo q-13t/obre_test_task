@@ -4,6 +4,7 @@ import Quote from "../../types/quote.tsx";
 import Column from "./elements/column-element.tsx";
 import { useEffect } from "react";
 import { useState } from "react";
+import { FilterCriteriaMap, Order } from "../../types/filter-criteria.tsx";
 
 
 
@@ -21,9 +22,16 @@ const Quotes = ({ q }: { q: Quote[] }) => {
 
     useEffect(() => {
         // As if performed fetch
-        let tmp = q.slice((context.page - 1) * context.limit, context.page * context.limit);
 
+        let tmp = q
+            .filter(quote => quote.description.toString().toLowerCase().includes(context.query.toLowerCase()))
+            .sort((a, b) => context.order === Order.asc ? a[FilterCriteriaMap[context.filterBy]] - b[FilterCriteriaMap[context.filterBy]] : b[FilterCriteriaMap[context.filterBy]] - a[FilterCriteriaMap[context.filterBy]])
+
+        context.setTotalPages(Math.ceil(tmp.length / context.limit));
+
+        tmp = tmp.slice((context.page - 1) * context.limit, context.page * context.limit)
         setQuotes(tmp);
+
 
         let sub = 0, vat = 0, total = 0, deposit = 0, outstanding = 0, profit = 0;
         tmp.forEach(quote => {
@@ -42,11 +50,13 @@ const Quotes = ({ q }: { q: Quote[] }) => {
         setProfit(profit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
         return () => { };
-    }, [context.limit, context.page]);
+        // eslint-disable-next-line
+    }, [context.limit, context.page, context.filterBy, context.order, context.query]);
 
     function _handlePageChange(page: number) {
         context.setPage(page);
     }
+
     const getPages = (): (number | string)[] => {
         const pages: (number | string)[] = [];
         if (context.TotalPages <= 1) return [1];
@@ -98,7 +108,7 @@ const Quotes = ({ q }: { q: Quote[] }) => {
                     <Column><p className="font-semibold">Customer Job Ref</p></Column>
                 </div>
                 {quotes.map((quote: Quote, index: number) => (
-                    <div className="grid grid-cols-[40px_40px_repeat(12,minmax(100px,1fr))_200px_minmax(100px,1fr)_minmax(100px,1fr)] px-2 py-1 text-sm text-left odd:bg-[#EFEFEF] gap-2">
+                    <div key={quote.id} className="grid grid-cols-[40px_40px_repeat(12,minmax(100px,1fr))_200px_minmax(100px,1fr)_minmax(100px,1fr)] px-2 py-1 text-sm text-left odd:bg-[#EFEFEF] gap-2">
                         <Column ><input type="checkbox" /></Column>
                         <Column ><p>{quote.id}</p></Column>
                         <Column ><p>{quote.quote}</p></Column>
