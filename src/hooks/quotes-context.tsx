@@ -1,13 +1,22 @@
-import { createContext } from "react";
+import { useState, createContext, useEffect } from "react";
+import { QuoteLimits } from "../enums/quote-limits.tsx";
 
-const quotesContext = createContext();
 
-const QuotesContextProvider = ({ children }) => {
+export const QuotesContext = createContext();
+
+export const QuotesContextProvider = ({ children, amount }) => {
+    const [page, setPage] = useState(1);
+    const [TotalPages, setTotalPages] = useState(0);
+    const [limit, setLimit] = useState(QuoteLimits.LIMIT_20);
+
+    useEffect(() => {
+        setTotalPages(Math.ceil(amount / limit));
+        return () => { };
+    }, [amount, limit]);
+
     return (
-        <quotesContext.Provider value={{}}>
+        <QuotesContext.Provider value={{ page, setPage, limit, setLimit, TotalPages, setTotalPages }}>
             {children}
-        </quotesContext.Provider>
+        </QuotesContext.Provider>
     );
 }
-
-export default QuotesContextProvider;
