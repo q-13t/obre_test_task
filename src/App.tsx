@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { UserContext } from "./hooks/user-context.tsx";
-import { useContext } from "react";
-
+import Header from "./components/header/header.tsx";
 
 function App() {
     const user = useContext(UserContext);
@@ -12,11 +11,11 @@ function App() {
         return () => {
             user.logout();
         };
-    }, []);
+    }, [user]);
 
     return (
-        <div className="App">
-            <h1 className="text-3xl font-bold underline">Hello</h1>
+        <div className="App px-4 py-2">
+            <Header />
         </div>
     );
 }
