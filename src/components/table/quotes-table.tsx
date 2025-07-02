@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { QuotesContext } from "../../hooks/quotes-context.tsx";
 import Quote from "../../types/quote.tsx";
 import Column from "./elements/column-element.tsx";
@@ -12,32 +12,42 @@ import AddDialog from "../subheader/elements/add-dialog.tsx";
 
 const Quotes = ({ q }: { q: Quote[] }) => {
     const context = useContext(QuotesContext);
-    const [quotes, setQuotes] = useState([]);
-    const [subTotal, setSubTotal] = useState(0);
-    const [VAT, setVAT] = useState(0);
-    const [total, setTotal] = useState(0);
-    const [deposit, setDeposit] = useState(0);
-    const [outstanding, setOutstanding] = useState(0);
-    const [profit, setProfit] = useState(0);
-    const [allSelected, setAllSelected] = useState(context.selectedQueries.length !== 0);
-    const [addOpen, setAddOpen] = useState(false);
-    const [selectedQuote, setSelectedQuote] = useState(null);
+    const quotes = useMemo(() => {
+        const filtered = q
+            .filter(quote =>
+                quote.description.toString().toLowerCase().includes(context.query.toLowerCase())
+            )
+            .sort((a, b) => {
+                const key = FilterCriteriaMap[context.filterBy];
+                return context.order === Order.asc
+                    ? a[key] - b[key]
+                    : b[key] - a[key];
+            });
 
-    useEffect(() => {
-        // As if performed fetch
+        context.setTotalPages(Math.ceil(filtered.length / context.limit));
 
-        let tmp = q
-            .filter(quote => quote.description.toString().toLowerCase().includes(context.query.toLowerCase()))
-            .sort((a, b) => context.order === Order.asc ? a[FilterCriteriaMap[context.filterBy]] - b[FilterCriteriaMap[context.filterBy]] : b[FilterCriteriaMap[context.filterBy]] - a[FilterCriteriaMap[context.filterBy]])
+        return filtered.slice(
+            (context.page - 1) * context.limit,
+            context.page * context.limit
+        );
+    }, [
+        context.query,
+        context.filterBy,
+        context.order,
+        context.limit,
+        context.page,
+        q
+    ]);
 
-        context.setTotalPages(Math.ceil(tmp.length / context.limit));
+    const { subTotal, VAT, total, deposit, outstanding, profit } = useMemo(() => {
+        let sub = 0,
+            vat = 0,
+            total = 0,
+            deposit = 0,
+            outstanding = 0,
+            profit = 0;
 
-        tmp = tmp.slice((context.page - 1) * context.limit, context.page * context.limit)
-        setQuotes(tmp);
-
-
-        let sub = 0, vat = 0, total = 0, deposit = 0, outstanding = 0, profit = 0;
-        tmp.forEach(quote => {
+        quotes.forEach(quote => {
             sub += quote.sub_total;
             vat += quote.VAT;
             total += quote.total;
@@ -46,19 +56,27 @@ const Quotes = ({ q }: { q: Quote[] }) => {
             profit += quote.profit;
         });
 
-        setSubTotal(sub.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-        setVAT(vat.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-        setTotal(total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-        setDeposit(deposit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-        setOutstanding(outstanding.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-        setProfit(profit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+        const format = (num: number) =>
+            num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+        return {
+            subTotal: format(sub),
+            VAT: format(vat),
+            total: format(total),
+            deposit: format(deposit),
+            outstanding: format(outstanding),
+            profit: format(profit)
+        };
+    }, [quotes]);
+    const [allSelected, setAllSelected] = useState(context.selectedQueries.length !== 0);
+    const [addOpen, setAddOpen] = useState(false);
+    const [selectedQuote, setSelectedQuote] = useState(null);
+
+    useEffect(() => {
         setAllSelected(context.selectedQueries.length !== 0);
-
-
         return () => { };
         // eslint-disable-next-line
-    }, [context.limit, context.page, context.filterBy, context.order, context.query, q, context.selectedQueries]);
+    }, [context.selectedQueries]);
 
     function _handlePageChange(page: number) {
         context.setPage(page);
