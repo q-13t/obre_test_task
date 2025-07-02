@@ -114,7 +114,7 @@ const Quotes = ({ q }: { q: Quote[] }) => {
             <div className="overflow-y-auto   divide-y divide-gray-200 w-full max-w-screen overflow-x-auto">
                 <div className="sticky top-0 z-10 bg-gray-100 grid grid-cols-[40px_40px_repeat(12,minmax(100px,1fr))_200px_minmax(100px,1fr)_minmax(100px,1fr)] w-full px-2 py-1 max-w-full gap-2">
                     <Column><input type="checkbox" checked={allSelected} onChange={() => { _handleSelectAllQueries(); }} /></Column>
-                    <Column><img src="/tabler_number.svg" alt="Number" className="h-6 w-6 m-0 p-0" /></Column>
+                    <Column><img src="/icons/tabler_number.svg" alt="Number" className="h-6 w-6 m-0 p-0" /></Column>
                     <Column><p className="font-semibold">Quote</p></Column>
                     <Column><p className="font-semibold">Date</p></Column>
                     <Column><p className="font-semibold">Customer</p></Column>
@@ -148,7 +148,7 @@ const Quotes = ({ q }: { q: Quote[] }) => {
                         <Column ><p>{quote.email}</p></Column>
                         <Column ><p>{quote.description}</p></Column>
                         <div className="cursor-pointer" onClick={() => { setSelectedQuote(quote); setAddOpen(true); }}>
-                            <Column ><img src="solar_pen-linear.svg" className="h-6 w-6" alt="Customer Job Ref" /></Column>
+                            <Column ><img src="/icons/solar_pen-linear.svg" className="h-6 w-6" alt="Customer Job Ref" /></Column>
                         </div>
 
                     </div>

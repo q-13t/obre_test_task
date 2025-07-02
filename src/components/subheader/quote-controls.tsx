@@ -44,12 +44,12 @@ const QuotesControl = ({ q }) => {
             </div>
             <div className=" relative  flex flex-row items-center gap-[30px] " ref={dropdownRef}>
                 <span onClick={() => setFilterOpen(prev => !prev)} className="cursor-pointer">
-                    <ImageIcon path="/bx_search.svg" alt="search" />
+                    <ImageIcon path="/icons/bx_search.svg" alt="search" />
                 </span>
                 <button onClick={(e: MouseEvent) => setMenuOpen(prev => !prev)} className="flex flex-row items-center justify-between w-max h-full rounded-[4px] mx-2 my-3">
                     <p className="font-medium">Show {context.limit}</p>
                     <span className={` ${menuOpen ? 'rotate-180' : ''}`}>
-                        <ImageIcon path="/weui_arrow-outlined.svg" alt="down arrow" />
+                        <ImageIcon path="/icons/weui_arrow-outlined.svg" alt="down arrow" />
                     </span>
                 </button>
                 {menuOpen && (

@@ -58,7 +58,7 @@ const FilterDialog = ({ setFilterOpen }: { setFilterOpen: Function }) => {
                         <button onClick={(e: MouseEvent) => setFilterCriteriaOpen(prev => !prev)} className="flex flex-row items-center justify-between w-max h-full rounded-[4px] mx-2 my-3">
                             <p className="font-medium">Filter By: {filterCriteria}</p>
                             <span className={` ${filterCriteriaOpen ? 'rotate-180' : ''}`}>
-                                <ImageIcon path="/weui_arrow-outlined.svg" alt="down arrow" />
+                                <ImageIcon path="/icons/weui_arrow-outlined.svg" alt="down arrow" />
                             </span>
                         </button>
                         {filterCriteriaOpen && (
@@ -73,7 +73,7 @@ const FilterDialog = ({ setFilterOpen }: { setFilterOpen: Function }) => {
                         <button onClick={(e: MouseEvent) => setOrderOpen(prev => !prev)} className="flex flex-row items-center justify-between w-max h-full rounded-[4px] mx-2 my-3">
                             <p className="font-medium">Order: {order}</p>
                             <span className={` ${orderOpen ? 'rotate-180' : ''}`}>
-                                <ImageIcon path="/weui_arrow-outlined.svg" alt="down arrow" />
+                                <ImageIcon path="/icons/weui_arrow-outlined.svg" alt="down arrow" />
                             </span>
                         </button>
                         {orderOpen && (

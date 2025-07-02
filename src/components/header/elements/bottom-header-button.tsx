@@ -11,7 +11,7 @@ const BottomHeaderButton = ({ image, text, callback }: { image: string, text: st
             <img src={image} alt="user-pfp" className="h-6 w-6 m-0 p-0" />
             <div className="flex flex-row items-center">
                 <h1 className='font-normal'>{text}</h1>
-                <img src="/weui_arrow-outlined.svg" alt="down arrow" />
+                <img src="/icons/weui_arrow-outlined.svg" alt="down arrow" />
             </div>
         </div>
     );

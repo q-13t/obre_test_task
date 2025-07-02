@@ -14,7 +14,7 @@ function getRandom(min: number, max: number): string {
 function App() {
     const user = useContext(UserContext);
 
-    const [q, setq] = useState(Array.from({ length: 10 }, (_, i) => new Quote(i, `QU-${i}`, "11/02/2025", "Customer", "Flat 19, 2, Havanna Drive, London NW11 9BB", Math.floor(parseFloat(getRandom(0, 100))), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), `temp@mail.org`, `Sample description ${i}`, 'job ref')));
+    const [q, setq] = useState(Array.from({ length: 1_000 }, (_, i) => new Quote(i, `QU-${i}`, "11/02/2025", "Customer", "Flat 19, 2, Havanna Drive, London NW11 9BB", Math.floor(parseFloat(getRandom(0, 100))), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), parseFloat(getRandom(0, 10_000)), `temp@mail.org`, `Sample description ${i}`, 'job ref')));
 
     useEffect(() => {
         // Assuming user has been logged in before

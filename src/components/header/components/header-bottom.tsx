@@ -26,20 +26,20 @@ const HederBottom = () => {
                 isMinimized ? (
                     <>
                         <div className="md:display-none col-span-3 flex flex-col items-center justify-between w-full  h-full hover:bg-[#B5B8FF] rounded-[4px]" onClick={() => { setIsOpen(!isOpen); }}>
-                            <img src="/weui_arrow-outlined.svg" alt="down arrow" className={`h-6 w-6 m-0 p-0 ${isOpen ? 'rotate-180' : ''}`} />
+                            <img src="/icons/weui_arrow-outlined.svg" alt="down arrow" className={`h-6 w-6 m-0 p-0 ${isOpen ? 'rotate-180' : ''}`} />
                         </div>
                         {
                             isOpen ? (
                                 <>
-                                    <BottomHeaderButton image="/mingcute_horn-line.svg" text="Leads" />
-                                    <BottomHeaderButton image="/document icon.svg" text="Quotes" />
-                                    <BottomHeaderButton image="/tools icon.svg" text="Jobs" />
-                                    <BottomHeaderButton image="/calendar icon.svg" text="Planner" />
-                                    <BottomHeaderButton image="/message.svg" text="Chat" />
-                                    <BottomHeaderButton image="/finance icon.svg" text="Finance" />
-                                    <BottomHeaderButton image="/contact icon.svg" text="Contacts" />
-                                    <BottomHeaderButton image="/money icon.svg" text="Expenses" />
-                                    <BottomHeaderButton image="/lucide_user-round.svg" text="User" />
+                                    <BottomHeaderButton image="/icons/mingcute_horn-line.svg" text="Leads" />
+                                    <BottomHeaderButton image="/icons/document icon.svg" text="Quotes" />
+                                    <BottomHeaderButton image="/icons/tools icon.svg" text="Jobs" />
+                                    <BottomHeaderButton image="/icons/calendar icon.svg" text="Planner" />
+                                    <BottomHeaderButton image="/icons/message.svg" text="Chat" />
+                                    <BottomHeaderButton image="/icons/finance icon.svg" text="Finance" />
+                                    <BottomHeaderButton image="/icons/contact icon.svg" text="Contacts" />
+                                    <BottomHeaderButton image="/icons/money icon.svg" text="Expenses" />
+                                    <BottomHeaderButton image="/icons/lucide_user-round.svg" text="User" />
                                 </>
                             ) : (
                                 null
@@ -48,15 +48,15 @@ const HederBottom = () => {
                     </>
                 ) : (
                     <>
-                        <BottomHeaderButton image="/mingcute_horn-line.svg" text="Leads" />
-                        <BottomHeaderButton image="/document icon.svg" text="Quotes" />
-                        <BottomHeaderButton image="/tools icon.svg" text="Jobs" />
-                        <BottomHeaderButton image="/calendar icon.svg" text="Planner" />
-                        <BottomHeaderButton image="/message.svg" text="Chat" />
-                        <BottomHeaderButton image="/finance icon.svg" text="Finance" />
-                        <BottomHeaderButton image="/contact icon.svg" text="Contacts" />
-                        <BottomHeaderButton image="/money icon.svg" text="Expenses" />
-                        <BottomHeaderButton image="/lucide_user-round.svg" text="User" />
+                        <BottomHeaderButton image="/icons/mingcute_horn-line.svg" text="Leads" />
+                        <BottomHeaderButton image="/icons/document icon.svg" text="Quotes" />
+                        <BottomHeaderButton image="/icons/tools icon.svg" text="Jobs" />
+                        <BottomHeaderButton image="/icons/calendar icon.svg" text="Planner" />
+                        <BottomHeaderButton image="/icons/message.svg" text="Chat" />
+                        <BottomHeaderButton image="/icons/finance icon.svg" text="Finance" />
+                        <BottomHeaderButton image="/icons/contact icon.svg" text="Contacts" />
+                        <BottomHeaderButton image="/icons/money icon.svg" text="Expenses" />
+                        <BottomHeaderButton image="/icons/lucide_user-round.svg" text="User" />
                     </>
                 )
             }
