@@ -4,7 +4,8 @@ import Quote from "../../types/quote.tsx";
 import Column from "./elements/column-element.tsx";
 import { useEffect } from "react";
 import { useState } from "react";
-import { FilterCriteriaMap, Order } from "../../types/filter-criteria.tsx";
+import { FilterCriteriaMap, Order } from "../../enums/filter-criteria.tsx";
+import AddDialog from "../subheader/elements/add-dialog.tsx";
 
 
 
@@ -18,7 +19,9 @@ const Quotes = ({ q }: { q: Quote[] }) => {
     const [deposit, setDeposit] = useState(0);
     const [outstanding, setOutstanding] = useState(0);
     const [profit, setProfit] = useState(0);
-
+    const [allSelected, setAllSelected] = useState(context.selectedQueries.length !== 0);
+    const [addOpen, setAddOpen] = useState(false);
+    const [selectedQuote, setSelectedQuote] = useState(null);
 
     useEffect(() => {
         // As if performed fetch
@@ -42,6 +45,7 @@ const Quotes = ({ q }: { q: Quote[] }) => {
             outstanding += quote.outstanding;
             profit += quote.profit;
         });
+
         setSubTotal(sub.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
         setVAT(vat.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
         setTotal(total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
@@ -49,9 +53,12 @@ const Quotes = ({ q }: { q: Quote[] }) => {
         setOutstanding(outstanding.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
         setProfit(profit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 
+        setAllSelected(context.selectedQueries.length !== 0);
+
+
         return () => { };
         // eslint-disable-next-line
-    }, [context.limit, context.page, context.filterBy, context.order, context.query]);
+    }, [context.limit, context.page, context.filterBy, context.order, context.query, q, context.selectedQueries]);
 
     function _handlePageChange(page: number) {
         context.setPage(page);
@@ -86,11 +93,27 @@ const Quotes = ({ q }: { q: Quote[] }) => {
         return pages;
     }
 
+    function _handleSelectAllQueries() {
+        if (context.selectedQueries.length === quotes.length) {
+            context.setSelectedQueries([]);
+        } else {
+            context.setSelectedQueries(quotes.map(quote => quote.id));
+        }
+    }
+
+    function _handleSelectQuery(id: number) {
+        if (context.selectedQueries.includes(id)) {
+            context.setSelectedQueries(context.selectedQueries.filter(quote => quote !== id));
+        } else {
+            context.setSelectedQueries([...context.selectedQueries, id]);
+        }
+    }
+
     return (
         <div className="flex flex-col items-center h-full overflow-y-auto">
             <div className="overflow-y-auto   divide-y divide-gray-200 w-full max-w-screen overflow-x-auto">
                 <div className="sticky top-0 z-10 bg-gray-100 grid grid-cols-[40px_40px_repeat(12,minmax(100px,1fr))_200px_minmax(100px,1fr)_minmax(100px,1fr)] w-full px-2 py-1 max-w-full gap-2">
-                    <Column><input type="checkbox" /></Column>
+                    <Column><input type="checkbox" checked={allSelected} onChange={() => { _handleSelectAllQueries(); }} /></Column>
                     <Column><img src="/tabler_number.svg" alt="Number" className="h-6 w-6 m-0 p-0" /></Column>
                     <Column><p className="font-semibold">Quote</p></Column>
                     <Column><p className="font-semibold">Date</p></Column>
@@ -109,7 +132,7 @@ const Quotes = ({ q }: { q: Quote[] }) => {
                 </div>
                 {quotes.map((quote: Quote, index: number) => (
                     <div key={quote.id} className="grid grid-cols-[40px_40px_repeat(12,minmax(100px,1fr))_200px_minmax(100px,1fr)_minmax(100px,1fr)] px-2 py-1 text-sm text-left odd:bg-[#EFEFEF] gap-2">
-                        <Column ><input type="checkbox" /></Column>
+                        <Column ><input type="checkbox" checked={context.selectedQueries.includes(quote.id)} onChange={() => { _handleSelectQuery(quote.id); }} /></Column>
                         <Column ><p>{quote.id}</p></Column>
                         <Column ><p>{quote.quote}</p></Column>
                         <Column ><p>{quote.date}</p></Column>
@@ -124,7 +147,10 @@ const Quotes = ({ q }: { q: Quote[] }) => {
                         <Column ><p>£{quote.profit}</p></Column>
                         <Column ><p>{quote.email}</p></Column>
                         <Column ><p>{quote.description}</p></Column>
-                        <Column ><img src="solar_pen-linear.svg" className="h-6 w-6" alt="Customer Job Ref" /></Column>
+                        <div className="cursor-pointer" onClick={() => { setSelectedQuote(quote); setAddOpen(true); }}>
+                            <Column ><img src="solar_pen-linear.svg" className="h-6 w-6" alt="Customer Job Ref" /></Column>
+                        </div>
+
                     </div>
                 ))}
                 <div className="grid sticky bottom-0 z-10 grid-cols-[40px_40px_repeat(12,minmax(100px,1fr))_200px_minmax(100px,1fr)_minmax(100px,1fr)] px-2 py-1 text-sm text-left odd:bg-white even:bg-gray-50 gap-2">
@@ -150,6 +176,7 @@ const Quotes = ({ q }: { q: Quote[] }) => {
                 }
                 <button onClick={() => context.page < context.TotalPages && _handlePageChange(context.page + 1)} disabled={context.page === context.TotalPages} className={`px-3 `}>&gt;</button>
             </div>
+            {addOpen && <AddDialog setOpen={setAddOpen} quote={selectedQuote} />}
         </div>
 
     );

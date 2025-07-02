@@ -1,4 +1,4 @@
-import Quote from "./quote";
+import Quote from "../types/quote.tsx";
 
 export enum FilterCriteria {
     id = 'ID',
