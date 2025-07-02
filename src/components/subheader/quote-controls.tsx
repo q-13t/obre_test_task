@@ -35,7 +35,7 @@ const QuotesControl = ({ q }) => {
 
 
     return (
-        <div className="flex flex-row items-center justify-between h-[34px] w-full">
+        <div className="flex md:flex-row flex-col items-center justify-between md:h-[34px] h-max w-full">
             <div className="flex flex-row items-center gap-2 h-full">
                 <ControlButton text="Actioned" callback={() => { }} />
                 <ControlButton text="Add" callback={() => { setAddOpen(true) }} />
